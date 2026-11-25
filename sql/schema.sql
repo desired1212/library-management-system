@@ -29,18 +29,22 @@ CREATE TABLE readers (
 -- Таблица пользователей системы (библиотекари)
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE COMMENT 'Логин',
-    password_hash VARCHAR(255) NOT NULL COMMENT 'Хэш пароля',
-    role ENUM('admin', 'librarian') NOT NULL DEFAULT 'librarian' COMMENT 'Роль',
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    role ENUM('admin','librarian') NOT NULL DEFAULT 'librarian',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
+
+
 
 -- Таблица выдач (связующая между книгами и читателями)
 CREATE TABLE loans (
     id INT AUTO_INCREMENT PRIMARY KEY,
     book_id INT NOT NULL COMMENT 'Книга',
     reader_id INT NOT NULL COMMENT 'Читатель',
-    issued_by INT NULL COMMENT 'Кто выдал (пользователь системы)',
+        issued_by INT NULL COMMENT 'Кем выдана (id пользователя)',
+
     issued_at DATE NOT NULL COMMENT 'Дата выдачи',
     due_date DATE NOT NULL COMMENT 'Срок возврата',
     returned_at DATE NULL COMMENT 'Дата возврата (NULL = не возвращена)',

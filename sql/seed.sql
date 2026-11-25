@@ -22,8 +22,10 @@ INSERT INTO readers (full_name, phone) VALUES
 ('Кузнецова Ольга Викторовна', '+7 (900) 444-55-66'),
 ('Смирнов Алексей Дмитриевич', '+7 (900) 555-66-77');
 
+
 -- Пользователи системы. Пароли: admin123 и librarian123
 -- Хэши сгенерированы функцией password_hash()
-INSERT INTO users (username, password_hash, role) VALUES
-('admin', '$2y$12$N4/GPaW8pO0VVUmJ9Cku4OZhEnanlCQ.Bnw83CmR91vIvdfUImsXq', 'admin'),
-('librarian', '$2y$12$pcRxc9Ha1eM3YNEZ55D2zO8WdTJm1G5ho/oR.wJse.xEa93SVfkAi', 'librarian');
+INSERT INTO users (username, password_hash, full_name, role) VALUES
+('admin', '$2y$12$N4/GPqW8pO0VVUmJ9Cku4OZhEnanlCQ.Bnw83CmR9IvIvdfUJmsXq', 'Администратор системы', 'admin'),
+('librarian', '$2y$12$pcRxc9HaIeM3YNE55D2zO8WdTJm1G5ho/oR.wJse.xEa93SVfkAi', 'Библиотекарь', 'librarian');
+

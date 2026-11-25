@@ -18,11 +18,25 @@ $page = $_GET['page'] ?? 'books';
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
         <a class="navbar-brand" href="index.php">📚 Библиотека</a>
-        <div class="navbar-nav">
-    <a class="nav-link <?= $page === 'books' ? 'active' : '' ?>" href="index.php">Книги</a>
-    <a class="nav-link <?= $page === 'readers' ? 'active' : '' ?>" href="index.php?page=readers">Читатели</a>
-    <a class="nav-link <?= $page === 'loans' ? 'active' : '' ?>" href="index.php?page=loans">Выдачи</a>
+       <div class="container">
+    <a class="navbar-brand" href="index.php">📚 Библиотека</a>
+    <div class="navbar-nav me-auto d-flex flex-row gap-3">
+        <a class="nav-link <?= $page === 'books' ? 'active' : '' ?>" href="index.php">Книги</a>
+        <a class="nav-link <?= $page === 'readers' ? 'active' : '' ?>" href="index.php?page=readers">Читатели</a>
+        <a class="nav-link <?= $page === 'loans' ? 'active' : '' ?>" href="index.php?page=loans">Выдачи</a>
+        <?php if (currentUser()['role'] === 'admin'): ?>
+            <a class="nav-link <?= $page === 'users' ? 'active' : '' ?>" href="index.php?page=users">Пользователи</a>
+        <?php endif; ?>
+    </div>
+    <div class="navbar-nav">
+        <span class="navbar-text text-white me-3">
+            <?= htmlspecialchars(currentUser()['full_name']) ?>
+            (<?= currentUser()['role'] === 'admin' ? 'админ' : 'библиотекарь' ?>)
+        </span>
+        <a class="nav-link" href="index.php?page=logout">Выход</a>
+    </div>
 </div>
+
 
     </div>
 </nav>

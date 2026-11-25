@@ -75,8 +75,9 @@ class LoanController
             }
 
             if (!$errors) {
-                // issued_by пока 1 — заглушка, на этапе авторизации подставим реального пользователя
-                $ok = $this->loan->issue($bookId, $readerId, 1, $dueDate);
+                
+$ok = $this->loan->issue($bookId, $readerId, (int)currentUser()['id'], $dueDate);
+
                 if ($ok) {
                     header('Location: index.php?page=loans');
                     exit;
