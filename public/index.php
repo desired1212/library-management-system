@@ -1,5 +1,14 @@
 <?php
-// public/index.php — временная точка входа для проверки окружения
-echo "<h1>Проект: система учёта библиотечных книг</h1>";
-echo "<p>PHP версия: " . phpversion() . "</p>";
-echo "<p>Если вы видите эту страницу — Apache и PHP работают.</p>";
+// public/index.php — проверка подключения к БД
+require_once __DIR__ . '/../config/db.php';
+
+echo "<h1>Проверка подключения</h1>";
+
+// Считаем количество книг в базе
+$stmt = $pdo->query('SELECT COUNT(*) AS cnt FROM books');
+$row = $stmt->fetch();
+echo "<p>Книг в базе: " . $row['cnt'] . "</p>";
+
+$stmt = $pdo->query('SELECT COUNT(*) AS cnt FROM readers');
+$row = $stmt->fetch();
+echo "<p>Читателей в базе: " . $row['cnt'] . "</p>";
