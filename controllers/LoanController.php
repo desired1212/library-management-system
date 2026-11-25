@@ -19,14 +19,23 @@ class LoanController
         $this->reader = new Reader($pdo);
     }
 
-    public function run(string $action): void
+        public function run(string $action): void
     {
         switch ($action) {
-            case 'issue':   $this->issue();   break;
-            case 'return':  $this->doReturn(); break;
-            default:        $this->index();
+            case 'issue':
+                $this->issue();
+                break;
+            case 'return':
+                $this->doReturn();
+                break;
+            case 'export':
+                $this->exportCsv();
+                break;
+            default:
+                $this->index();
         }
     }
+
 
     /** Список выдач с переключателем: активные / просроченные / история */
     private function index(): void
@@ -99,4 +108,37 @@ class LoanController
         echo $content;
         require __DIR__ . '/../views/layout/footer.php';
     }
+        /** CSV-файл со всеми просроченными выдачами */
+    private function exportCsv(): void
+    {
+        $rows = $this->loan->overdueForExport();
+
+        // HTTP-заголовки: браузер скачает ответ как файл, а не покажет страницу
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="overdue_report.csv"');
+
+        $out = fopen('php://output', 'w');
+
+        // BOM нужен, чтобы Excel открыл кириллицу без кракозябр
+        fwrite($out, "\xEF\xBB\xBF");
+
+        // Заголовок таблицы
+        fputcsv($out, ['ID', 'Книга', 'Читатель', 'Телефон', 'Выдана', 'Срок возврата', 'Дней просрочки'], ';');
+
+        foreach ($rows as $r) {
+            fputcsv($out, [
+                $r['id'],
+                $r['book_title'],
+                $r['reader_name'],
+                $r['phone'] ?? '',
+                date('d.m.Y', strtotime($r['issued_at'])),
+                date('d.m.Y', strtotime($r['due_date'])),
+                $r['days_late'],
+            ], ';');
+        }
+
+        fclose($out);
+        exit; // дальше ничего не выводим — только файл
+    }
+
 }

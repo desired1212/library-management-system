@@ -5,6 +5,13 @@
  */
 ?>
 <h1 class="mb-3">Выдачи книг</h1>
+<?php if ($tab === 'overdue'): ?>
+    <div class="alert alert-warning">
+        Всего просроченных выдач: <strong><?= count($loans) ?></strong>.
+        <a class="btn btn-sm btn-outline-success ms-2"
+           href="index.php?page=loans&tab=overdue&action=export">Экспорт в CSV</a>
+    </div>
+<?php endif; ?>
 
 <ul class="nav nav-tabs mb-3">
     <li class="nav-item">

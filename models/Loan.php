@@ -104,6 +104,20 @@ class Loan
             return false;
         }
     }
+        /** Просроченные выдачи для CSV-экспорта (тот же набор данных, что в отчёте) */
+    public function overdueForExport(): array
+    {
+        $sql = 'SELECT l.id, b.title AS book_title, r.full_name AS reader_name,
+                       r.phone, l.issued_at, l.due_date,
+                       DATEDIFF(CURRENT_DATE, l.due_date) AS days_late
+                FROM loans l
+                JOIN books b   ON b.id = l.book_id
+                JOIN readers r ON r.id = l.reader_id
+                WHERE l.returned_at IS NULL AND l.due_date < CURRENT_DATE
+                ORDER BY days_late DESC';
+        return $this->pdo->query($sql)->fetchAll();
+    }
+
 
     /** Приём возврата книги: закрываем выдачу, возвращаем статус */
     public function returnBook(int $loanId): bool

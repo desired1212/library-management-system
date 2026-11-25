@@ -1,5 +1,6 @@
 <?php
 // controllers/BookController.php — контроллер книг
+require_once __DIR__ . '/../models/Loan.php';
 
 class BookController
 {
@@ -39,6 +40,7 @@ class BookController
     }
 
     /** Карточка книги */
+        /** Карточка книги */
     private function show(): void
     {
         $book = $this->book->find((int)($_GET['id'] ?? 0));
@@ -46,8 +48,13 @@ class BookController
             http_response_code(404);
             die('Книга не найдена');
         }
-        $this->render('show', ['book' => $book]);
+        // История выдач этой книги: кто брал, когда и когда вернул
+        $loan = new Loan($this->pdo);
+        $history = $loan->byBook((int)$book['id']);
+
+        $this->render('show', ['book' => $book, 'history' => $history]);
     }
+
 
     /** Добавление книги */
     private function create(): void
