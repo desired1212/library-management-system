@@ -1,4 +1,9 @@
-<?php // views/books/index.php — список книг с поиском ?>
+<?php
+/**
+ * @var array $books
+ * @var string $q
+ * @var string $field
+ */ // views/books/index.php — список книг с поиском ?>
 <h1 class="mb-3">Каталог книг</h1>
 
 <!-- Форма поиска: клиентская валидация через required -->
@@ -46,13 +51,17 @@
                 <?php endif; ?>
             </td>
             <td>
-                <a class="btn btn-sm btn-outline-primary" href="index.php?action=show&id=<?= $b['id'] ?>">Открыть</a>
-                <a class="btn btn-sm btn-outline-secondary" href="index.php?action=edit&id=<?= $b['id'] ?>">Изменить</a>
-                <!-- Минимум JS: подтверждение удаления -->
-                <a class="btn btn-sm btn-outline-danger"
-                   href="index.php?action=delete&id=<?= $b['id'] ?>"
-                   onclick="return confirm('Удалить книгу «<?= htmlspecialchars($b['title']) ?>»?')">Удалить</a>
-            </td>
+<td>
+    <a class="btn btn-sm btn-outline-primary" href="index.php?action=show&id=<?= $b['id'] ?>">Открыть</a>
+    <a class="btn btn-sm btn-outline-secondary" href="index.php?action=edit&id=<?= $b['id'] ?>">Изменить</a>
+    <?php if ($b['status'] === 'в наличии'): ?>
+        <a class="btn btn-sm btn-outline-info" href="index.php?page=loans&action=issue&book_id=<?= $b['id'] ?>">Выдать</a>
+    <?php endif; ?>
+    <a class="btn btn-sm btn-outline-danger"
+       href="index.php?action=delete&id=<?= $b['id'] ?>"
+       onclick="return confirm('Удалить книгу «<?= htmlspecialchars($b['title']) ?>»?')">Удалить</a>
+</td>
+
         </tr>
     <?php endforeach; ?>
     </tbody>

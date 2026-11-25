@@ -1,4 +1,11 @@
-<?php // views/books/show.php — карточка книги ?>
+<?php
+
+/**
+ * @var array $book
+ */
+// views/books/show.php — карточка книги
+
+// views/books/show.php — карточка книги ?>
 <h1 class="mb-3"><?= htmlspecialchars($book['title']) ?></h1>
 <table class="table bg-white shadow-sm">
     <tr><th width="200">Автор</th><td><?= htmlspecialchars($book['author']) ?></td></tr>

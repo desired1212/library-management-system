@@ -1,4 +1,9 @@
-<?php // views/books/edit.php — форма редактирования ?>
+<?php 
+/**
+ * @var array $errors
+ * @var array $book
+ */
+// views/books/edit.php — форма редактирования ?>
 <h1 class="mb-3">Редактирование книги</h1>
 
 <?php if ($errors): ?>

@@ -1,4 +1,8 @@
-<?php // views/books/create.php — форма добавления книги ?>
+<?php 
+/**
+ * @var array $errors
+ */
+// views/books/create.php — форма добавления книги ?>
 <h1 class="mb-3">Добавление книги</h1>
 
 <?php if ($errors): ?>
