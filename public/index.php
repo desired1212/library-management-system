@@ -3,6 +3,11 @@
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../config/auth.php';
 
+
+require_once __DIR__ . '/../models/Stats.php';
+require_once __DIR__ . '/../controllers/DashboardController.php';
+
+
 requireLogin(); // без входа дальше не пускаем
 
 // Выход из системы
@@ -25,6 +30,12 @@ $page   = $_GET['page']   ?? 'books';
 $action = $_GET['action'] ?? 'index';
 
 switch ($page) {
+    case 'dashboard':
+        (new DashboardController($pdo))->run($action);
+        break;
+   
+        
+
     case 'readers':
         (new ReaderController($pdo))->run($action);
         break;

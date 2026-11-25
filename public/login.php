@@ -24,7 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'full_name' => $user['full_name'],
             'role'      => $user['role'],
         ];
-        header('Location: index.php');
+        header('Location: index.php?page=dashboard');
+
         exit;
     }
     $error = 'Неверный логин или пароль';

@@ -6,19 +6,28 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 /** Текущий пользователь или null, если не авторизован */
+
+// config/auth.php — вспомогательные функции авторизации
+
 function currentUser(): ?array
 {
     return $_SESSION['user'] ?? null;
 }
 
-/** Требует авторизации: не вошедших отправляет на страницу входа */
+function isAdmin(): bool
+{
+    $u = currentUser();
+    return $u !== null && $u['role'] === 'admin';
+}
+
 function requireLogin(): void
 {
-    if (!currentUser()) {
+    if (currentUser() === null) {
         header('Location: login.php');
         exit;
     }
 }
+
 
 /** Требует определённую роль (например, admin) */
 function requireRole(string $role): void
