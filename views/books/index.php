@@ -4,8 +4,19 @@
  * @var string $q
  * @var string $field
  */ // views/books/index.php — список книг с поиском ?>
-<h1 class="mb-3">Каталог книг</h1>
+ 
+<?php if (($_GET['msg'] ?? '') === 'deleted'): ?>
+    <div class="alert alert-success">Книга удалена.</div>
+<?php endif; ?>
 
+<?php if (($_GET['error'] ?? '') === 'book_in_use'): ?>
+    <div class="alert alert-warning">
+        Нельзя удалить книгу: по ней есть история выдач.
+        Удалите сначала связанные записи или оставьте книгу в фонде.
+    </div>
+<?php endif; ?>
+
+<h1 class="mb-3">Каталог книг</h1>
 <!-- Форма поиска: клиентская валидация через required -->
 <form class="row g-2 mb-3" method="get" action="index.php">
     <div class="col-md-5">

@@ -112,15 +112,20 @@ class BookController
         $this->render('edit', ['book' => $book, 'errors' => $errors]);
     }
 
-    /** Удаление книги */
-    private function delete(): void
-    {
-        $id = (int)($_GET['id'] ?? 0);
-        $ok = $this->book->delete($id);
-        // В реальном приложении сообщение выводится через flash-сессию
-        header('Location: index.php');
-        exit;
+    public function delete(): void
+{
+    $id = (int)($_GET['id'] ?? 0);
+
+    try {
+        $this->book->delete($id);
+        header('Location: index.php?page=books&msg=deleted');
+    } catch (PDOException $e) {
+        // Нарушение внешнего ключа: по книге есть выдачи
+        header('Location: index.php?page=books&error=book_in_use');
     }
+    exit;
+}
+
 
     /** Подключает шаблон внутри общей разметки */
     private function render(string $view, array $data = []): void
